@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oasis Aromático - Gestión de Perfumería</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #4f46e5;
+            --primary-pink: #ec4899;
+            --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+            --light-pink: #fce7f3;
+            --light-blue: #dbeafe;
+            --dark-pink: #be185d;
+            --dark-blue: #1e40af;
+            --secondary-bg: #f9f9f9;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --border-color: #e5e7eb;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f3f0ff 0%, #fdf2f8 100%);
+            color: var(--text-dark);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ============== LOGIN PAGE ============== */
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-page::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            left: -100px;
+        }
+
+        .login-page::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            bottom: -50px;
+            right: -50px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 30px;
+            box-shadow: 0 20px 60px -15px rgba(79, 70, 229, 0.3);
+            text-align: center;
+        }
+
+        .logo-circle {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+            box-shadow: 0 10px 30px -5px rgba(236, 72, 153, 0.3);
+            animation: float 3s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .brand-name {
+            font-size: 28px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .welcome-text {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 2px solid var(--light-blue);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, rgba(219, 234, 254, 0.5) 0%, rgba(252, 231, 243, 0.5) 100%);
+        }
+
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+        }
+
+        .forgot-password {
+            display: inline-block;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .signup-link {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-light);
+            margin-top: 20px;
+        }
+
+        .signup-link a {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* ============== REGISTER PAGE ============== */
+        .register-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f3f0ff 0%, #fdf2f8 100%);
+            padding: 20px;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .register-header {
+            background: var(--primary-gradient);
+            border-radius: 16px 16px 0 0;
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+            margin-bottom: 0;
+        }
+
+        .register-header h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .register-header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .register-card {
+            background: white;
+            border-radius: 0 0 16px 16px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px -15px rgba(79, 70, 229, 0.3);
+        }
+
+        .register-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .register-form .form-group {
+            margin-bottom: 0;
+        }
+
+        .register-form .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .register-form input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .register-form input:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+        }
+
+        .register-form input::placeholder {
+            color: #9ca3af;
+        }
+
+        /* ============== BUTTONS ============== */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 10px 25px -5px rgba(236, 72, 153, 0.3);
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px -5px rgba(236, 72, 153, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-pink);
+            border: 2px solid var(--primary-pink);
+            width: 100%;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(236, 72, 153, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* ============== DASHBOARD ============== */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f3f0ff 0%, #fdf2f8 100%);
+        }
+
+        .sidebar {
+            background: white;
+            border-right: 2px solid var(--light-blue);
+            padding: 20px;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            box-shadow: 5px 0 20px -10px rgba(79, 70, 229, 0.1);
+        }
+
+        .sidebar-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-pink);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 8px 20px -5px rgba(236, 72, 153, 0.3);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .user-info h4 {
+            font-size: 15px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2px;
+            font-weight: 700;
+        }
+
+        .user-info p {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+        }
+
+        .nav-item i {
+            font-size: 16px;
+            width: 20px;
+        }
+
+        .nav-item:hover {
+            background: linear-gradient(135deg, rgba(219, 234, 254, 0.5) 0%, rgba(252, 231, 243, 0.5) 100%);
+            border-left-color: var(--primary-pink);
+            color: var(--primary-pink);
+        }
+
+        .nav-item.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-left-color: white;
+            box-shadow: 0 5px 15px -3px rgba(236, 72, 153, 0.3);
+        }
+
+        .sidebar-footer {
+            border-top: 2px solid var(--light-pink);
+            padding-top: 20px;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(135deg, rgba(219, 234, 254, 0.5) 0%, rgba(252, 231, 243, 0.5) 100%);
+            color: var(--danger-color);
+        }
+
+        .version {
+            font-size: 12px;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .main-content {
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, white 0%, rgba(255, 255, 255, 0.95) 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px -10px rgba(236, 72, 153, 0.2);
+            border: 1px solid var(--light-blue);
+        }
+
+        .header-greeting {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-mini-header {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 10px 30px -5px rgba(236, 72, 153, 0.3);
+            overflow: hidden;
+        }
+
+        .logo-mini-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .header-greeting h2 {
+            font-size: 28px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header-greeting p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            border: 1px solid var(--light-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .dashboard-card:hover {
+            box-shadow: 0 15px 40px -10px rgba(236, 72, 153, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .card-icon.inventory {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            box-shadow: 0 8px 20px -5px rgba(59, 130, 246, 0.3);
+        }
+
+        .card-icon.sales {
+            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+            box-shadow: 0 8px 20px -5px rgba(236, 72, 153, 0.3);
+        }
+
+        .card-icon.reports {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 8px 20px -5px rgba(16, 185, 129, 0.3);
+        }
+
+        .card-content h3 {
+            font-size: 16px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .card-content p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .card-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* ============== PAGE WRAPPER ============== */
+        .page-wrapper {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f3f0ff 0%, #fdf2f8 100%);
+        }
+
+        .page-container {
+            padding: 40px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h2 {
+            font-size: 28px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .page-subtitle {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        /* ============== FILTERS ============== */
+        .filters-bar {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px -10px rgba(79, 70, 229, 0.1);
+            border: 1px solid var(--light-blue);
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 12px 10px 36px;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+        }
+
+        /* ============== TABLES ============== */
+        .table-container {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -10px rgba(79, 70, 229, 0.1);
+            border: 1px solid var(--light-blue);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #f3f0ff 0%, #fdf2f8 100%);
+            border-bottom: 2px solid var(--primary-gradient);
+        }
+
+        table thead th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        table tbody td {
+            padding: 16px;
+            border-bottom: 1px solid var(--light-pink);
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        table tbody tr:hover {
+            background: linear-gradient(135deg, rgba(219, 234, 254, 0.3) 0%, rgba(252, 231, 243, 0.3) 100%);
+        }
+
+        .table-info {
+            padding: 16px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 13px;
+            border-top: 1px solid var(--light-pink);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+            color: var(--dark-blue);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid var(--light-blue);
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-right: 4px;
+            font-weight: 600;
+        }
+
+        .action-btn.edit {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(30, 64, 175, 0.2) 100%);
+            color: var(--dark-blue);
+            border: 1px solid var(--light-blue);
+        }
+
+        .action-btn.edit:hover {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+        }
+
+        .action-btn.delete {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(190, 24, 93, 0.2) 100%);
+            color: var(--dark-pink);
+            border: 1px solid var(--light-pink);
+        }
+
+        .action-btn.delete:hover {
+            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+            color: white;
+        }
+
+        /* ============== STATS ============== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            box-shadow: 0 10px 25px -10px rgba(79, 70, 229, 0.1);
+            border: 1px solid var(--light-blue);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px -10px rgba(236, 72, 153, 0.2);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            flex-shrink: 0;
+            box-shadow: 0 8px 20px -5px rgba(236, 72, 153, 0.3);
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h3 {
+            font-size: 20px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        /* ============== RESPONSIVE ============== */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .dashboard-container,
+            .page-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .dashboard-card {
+                flex-direction: column;
+            }
+
+            .card-stats {
+                margin-left: 0;
+            }
+
+            .register-container {
+                max-width: 100%;
+            }
+
+            .register-card,
+            .register-header {
+                border-radius: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============== LOGIN PAGE ============== -->
+    <div class="page login-page active" id="login-page">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="logo-circle">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23a91d63' width='200' height='200'/%3E%3Ctext x='100' y='120' font-size='60' font-weight='bold' text-anchor='middle' fill='white' font-family='serif'%3EOasis%3C/text%3E%3C/svg%3E" alt="Logo Oasis">
+                </div>
+                <h1 class="brand-name">Oasis Aromático</h1>
+                <p class="welcome-text">Sistema de Gestión de Perfumería</p>
+
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label>Correo electrónico</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" placeholder="tu@gmail.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="••••••••" required>
+                        </div>
+                    </div>
+
+                    <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+
+                    <button type="button" class="btn btn-primary" onclick="goToPage('dashboard-page')">
+                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                    </button>
+                </form>
+
+                <div class="signup-link">
+                    <span>¿No tienes una cuenta?</span>
+                    <a onclick="goToPage('register-page')">Regístrate aquí</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== REGISTER PAGE ============== -->
+    <div class="page register-page" id="register-page">
+        <div class="register-container">
+            <div class="register-header">
+                <h2>Registro de Usuario</h2>
+                <p>Complete el formulario con sus datos personales</p>
+            </div>
+
+            <div class="register-card">
+                <form class="register-form" id="registerForm">
+                    <div class="form-group">
+                        <label for="nombres">Nombres</label>
+                        <input type="text" id="nombres" placeholder="Ingrese sus nombres" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apellidos">Apellidos</label>
+                        <input type="text" id="apellidos" placeholder="Ingrese sus apellidos" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cedula">Cédula</label>
+                        <input type="text" id="cedula" placeholder="Ingrese su número de cédula" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha-nacimiento">Fecha de Nacimiento</label>
+                        <input type="date" id="fecha-nacimiento" placeholder="dd/mm/aaaa" required>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="goToPage('dashboard-page')">
+                        <i class="fas fa-user-plus"></i> Registrar Usuario
+                    </button>
+
+                    <button type="button" class="btn btn-secondary" onclick="goToPage('login-page')">
+                        <i class="fas fa-arrow-left"></i> Volver al Inicio
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== DASHBOARD PAGE ============== -->
+    <div class="page dashboard-page" id="dashboard-page">
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23a91d63' width='200' height='200'/%3E%3Ctext x='100' y='120' font-size='60' font-weight='bold' text-anchor='middle' fill='white' font-family='serif'%3EOasis%3C/text%3E%3C/svg%3E" alt="Logo Oasis">
+                        </div>
+                        <div class="user-info">
+                            <h4>Oasis</h4>
+                            <p>Gestión</p>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item active" onclick="goToPage('dashboard-page'); return false;">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Inicio</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="goToPage('inventory-page'); return false;">
+                        <i class="fas fa-box"></i>
+                        <span>Inventario</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="goToPage('sales-page'); return false;">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Ventas</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="goToPage('suppliers-page'); return false;">
+                        <i class="fas fa-truck"></i>
+                        <span>Proveedores</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="goToPage('reports-page'); return false;">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reportes</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="goToPage('settings-page'); return false;">
+                        <i class="fas fa-cog"></i>
+                        <span>Configuración</span>
+                    </a>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <button class="logout-btn" onclick="goToPage('login-page')">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Cerrar Sesión</span>
+                    </button>
+                    <p class="version">Sistema v1.0</p>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="dashboard-header">
+                    <div class="header-greeting">
+                        <div class="logo-mini-header">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23a91d63' width='200' height='200'/%3E%3Ctext x='100' y='120' font-size='60' font-weight='bold' text-anchor='middle' fill='white' font-family='serif'%3EOasis%3C/text%3E%3C/svg%3E" alt="Logo Oasis">
+                        </div>
+                        <div>
+                            <h2>¡Bienvenido!</h2>
+                            <p>Sistema de gestión de inventario, ventas y reportes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card" onclick="goToPage('inventory-page'); return false;">
+                        <div class="card-icon inventory">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Inventario</h3>
+                            <p>Gestionar productos</p>
+                        </div>
+                        <div class="card-stats">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">Productos</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card" onclick="goToPage('sales-page'); return false;">
+                        <div class="card-icon sales">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Ventas</h3>
+                            <p>Registrar ventas</p>
+                        </div>
+                        <div class="card-stats">
+                            <span class="stat-value">$0</span>
+                            <span class="stat-label">Este mes</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card" onclick="goToPage('reports-page'); return false;">
+                        <div class="card-icon reports">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Reportes</h3>
+                            <p>Ver estadísticas</p>
+                        </div>
+                        <div class="card-stats">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">Stock bajo</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ============== INVENTORY PAGE ============== -->
+    <div class="page inventory-page" id="inventory-page">
+        <div class="page-wrapper">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23a91d63' width='200' height='200'/%3E%3Ctext x='100' y='120' font-size='60' font-weight='bold' text-anchor='middle' fill='white' font-family='serif'%3EOasis%3C/text%3E%3C/svg%3E" alt="Logo Oasis">
+                        </div>
+                        <div class="user-info">
+                            <h4>Oasis</h4>
+                            <p>Gestión</p>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item" onclick="goToPage('dashboard-page'); return false;"><i class="fas fa-chart-line"></i><span>Inicio</span></a>
+                    <a href="#" class="nav-item active" onclick="goToPage('inventory-page'); return false;"><i class="fas fa-box"></i><span>Inventario</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('sales-page'); return false;"><i class="fas fa-shopping-cart"></i><span>Ventas</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('suppliers-page'); return false;"><i class="fas fa-truck"></i><span>Proveedores</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('reports-page'); return false;"><i class="fas fa-chart-bar"></i><span>Reportes</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('settings-page'); return false;"><i class="fas fa-cog"></i><span>Configuración</span></a>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <button class="logout-btn" onclick="goToPage('login-page')"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></button>
+                    <p class="version">Sistema v1.0</p>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div class="page-container">
+                    <div class="page-header">
+                        <div>
+                            <h2>Inventario</h2>
+                            <p class="page-subtitle">Gestión de productos de perfumería</p>
+                        </div>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Agregar Producto
+                        </button>
+                    </div>
+
+                    <div class="filters-bar">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Buscar productos..." id="searchInput">
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Marca</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 40px;">No hay productos registrados</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ============== SALES PAGE ============== -->
+    <div class="page sales-page" id="sales-page">
+        <div class="page-wrapper">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23a91d63' width='200' height='200'/%3E%3Ctext x='100' y='120' font-size='60' font-weight='bold' text-anchor='middle' fill='white' font-family='serif'%3EOasis%3C/text%3E%3C/svg%3E" alt="Logo Oasis">
+                        </div>
+                        <div class="user-info">
+                            <h4>Oasis</h4>
+                            <p>Gestión</p>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item" onclick="goToPage('dashboard-page'); return false;"><i class="fas fa-chart-line"></i><span>Inicio</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('inventory-page'); return false;"><i class="fas fa-box"></i><span>Inventario</span></a>
+                    <a href="#" class="nav-item active" onclick="goToPage('sales-page'); return false;"><i class="fas fa-shopping-cart"></i><span>Ventas</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('suppliers-page'); return false;"><i class="fas fa-truck"></i><span>Proveedores</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('reports-page'); return false;"><i class="fas fa-chart-bar"></i><span>Reportes</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('settings-page'); return false;"><i class="fas fa-cog"></i><span>Configuración</span></a>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <button class="logout-btn" onclick="goToPage('login-page')"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></button>
+                    <p class="version">Sistema v1.0</p>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div class="page-container">
+                    <div class="page-header">
+                        <div>
+                            <h2>Ventas</h2>
+                            <p class="page-subtitle">Registro de ventas de perfumería</p>
+                        </div>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Registrar Venta
+                        </button>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Ventas</span>
+                                <span class="stat-value">$0</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Transacciones</span>
+                                <span class="stat-value">0</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-tag"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Promedio</span>
+                                <span class="stat-value">$0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-header">
+                        <h3>Historial de Ventas</h3>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 40px;">No hay ventas registradas</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ============== SUPPLIERS PAGE ============== -->
+    <div class="page suppliers-page" id="suppliers-page">
+        <div class="page-wrapper">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23a91d63' width='200' height='200'/%3E%3Ctext x='100' y='120' font-size='60' font-weight='bold' text-anchor='middle' fill='white' font-family='serif'%3EOasis%3C/text%3E%3C/svg%3E" alt="Logo Oasis">
+                        </div>
+                        <div class="user-info">
+                            <h4>Oasis</h4>
+                            <p>Gestión</p>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item" onclick="goToPage('dashboard-page'); return false;"><i class="fas fa-chart-line"></i><span>Inicio</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('inventory-page'); return false;"><i class="fas fa-box"></i><span>Inventario</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('sales-page'); return false;"><i class="fas fa-shopping-cart"></i><span>Ventas</span></a>
+                    <a href="#" class="nav-item active" onclick="goToPage('suppliers-page'); return false;"><i class="fas fa-truck"></i><span>Proveedores</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('reports-page'); return false;"><i class="fas fa-chart-bar"></i><span>Reportes</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('settings-page'); return false;"><i class="fas fa-cog"></i><span>Configuración</span></a>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <button class="logout-btn" onclick="goToPage('login-page')"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></button>
+                    <p class="version">Sistema v1.0</p>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div class="page-container">
+                    <div class="page-header">
+                        <div>
+                            <h2>Proveedores</h2>
+                            <p class="page-subtitle">Gestión de proveedores</p>
+                        </div>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Agregar Proveedor
+                        </button>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Empresa</th>
+                                    <th>Contacto</th>
+                                    <th>Teléfono</th>
+                                    <th>Email</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 40px;">No hay proveedores registrados</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ============== REPORTS PAGE ============== -->
+    <div class="page reports-page" id="reports-page">
+        <div class="page-wrapper">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23a91d63' width='200' height='200'/%3E%3Ctext x='100' y='120' font-size='60' font-weight='bold' text-anchor='middle' fill='white' font-family='serif'%3EOasis%3C/text%3E%3C/svg%3E" alt="Logo Oasis">
+                        </div>
+                        <div class="user-info">
+                            <h4>Oasis</h4>
+                            <p>Gestión</p>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item" onclick="goToPage('dashboard-page'); return false;"><i class="fas fa-chart-line"></i><span>Inicio</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('inventory-page'); return false;"><i class="fas fa-box"></i><span>Inventario</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('sales-page'); return false;"><i class="fas fa-shopping-cart"></i><span>Ventas</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('suppliers-page'); return false;"><i class="fas fa-truck"></i><span>Proveedores</span></a>
+                    <a href="#" class="nav-item active" onclick="goToPage('reports-page'); return false;"><i class="fas fa-chart-bar"></i><span>Reportes</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('settings-page'); return false;"><i class="fas fa-cog"></i><span>Configuración</span></a>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <button class="logout-btn" onclick="goToPage('login-page')"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></button>
+                    <p class="version">Sistema v1.0</p>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div class="page-container">
+                    <div class="page-header">
+                        <div>
+                            <h2>Reportes</h2>
+                            <p class="page-subtitle">Análisis y estadísticas</p>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-box"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Productos</span>
+                                <span class="stat-value">0</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Valor Inventario</span>
+                                <span class="stat-value">$0</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="stat-info">
+                                <span class="stat-label">Ventas Totales</span>
+                                <span class="stat-value">$0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ============== SETTINGS PAGE ============== -->
+    <div class="page settings-page" id="settings-page">
+        <div class="page-wrapper">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23a91d63' width='200' height='200'/%3E%3Ctext x='100' y='120' font-size='60' font-weight='bold' text-anchor='middle' fill='white' font-family='serif'%3EOasis%3C/text%3E%3C/svg%3E" alt="Logo Oasis">
+                        </div>
+                        <div class="user-info">
+                            <h4>Oasis</h4>
+                            <p>Gestión</p>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item" onclick="goToPage('dashboard-page'); return false;"><i class="fas fa-chart-line"></i><span>Inicio</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('inventory-page'); return false;"><i class="fas fa-box"></i><span>Inventario</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('sales-page'); return false;"><i class="fas fa-shopping-cart"></i><span>Ventas</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('suppliers-page'); return false;"><i class="fas fa-truck"></i><span>Proveedores</span></a>
+                    <a href="#" class="nav-item" onclick="goToPage('reports-page'); return false;"><i class="fas fa-chart-bar"></i><span>Reportes</span></a>
+                    <a href="#" class="nav-item active" onclick="goToPage('settings-page'); return false;"><i class="fas fa-cog"></i><span>Configuración</span></a>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <button class="logout-btn" onclick="goToPage('login-page')"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></button>
+                    <p class="version">Sistema v1.0</p>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div class="page-container">
+                    <div class="page-header">
+                        <div>
+                            <h2>Configuraciones</h2>
+                            <p class="page-subtitle">Personaliza tu sistema</p>
+                        </div>
+                    </div>
+
+                    <div style="background: white; border-radius: 14px; padding: 30px; box-shadow: 0 10px 25px -10px rgba(79, 70, 229, 0.1); border: 1px solid var(--light-blue);">
+                        <h3 style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700; margin-bottom: 20px;">Información de la Empresa</h3>
+                        
+                        <form style="display: flex; flex-direction: column; gap: 20px;">
+                            <div class="form-group">
+                                <label>Nombre de la Empresa</label>
+                                <input type="text" placeholder="Oasis Aromático" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" placeholder="info@oasisaromatico.com" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="tel" placeholder="+57 300 000 0000" required>
+                            </div>
+
+                            <button type="button" class="btn btn-primary" style="margin-bottom: 0;">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function goToPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Actualizar navegación activa
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+
+                // Marcar el nav item correspondiente como activo
+                const pageNameMap = {
+                    'dashboard-page': 'Inicio',
+                    'inventory-page': 'Inventario',
+                    'sales-page': 'Ventas',
+                    'suppliers-page': 'Proveedores',
+                    'reports-page': 'Reportes',
+                    'settings-page': 'Configuración'
+                };
+
+                const navName = pageNameMap[pageId];
+                if (navName) {
+                    navItems.forEach(item => {
+                        if (item.textContent.includes(navName)) {
+                            item.classList.add('active');
+                        }
+                    });
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
+
