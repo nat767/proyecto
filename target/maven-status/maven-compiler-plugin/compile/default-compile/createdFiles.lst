@@ -1,0 +1,3 @@
+com\oasis\dao\UsuarioDAO.class
+com\oasis\model\Usuario.class
+com\oasis\servlets\RegisterServlet.class
